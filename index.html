@@ -103,6 +103,7 @@ font-size:18px;
 <script>
 
 /* Cursor Hearts */
+
 document.addEventListener("mousemove",(e)=>{
 const heart=document.createElement("div");
 heart.innerHTML="❤️";
@@ -114,6 +115,7 @@ setTimeout(()=>heart.remove(),400);
 });
 
 /* Typing Effect */
+
 function typeText(text){
 let i=0;
 const el=document.getElementById("text");
@@ -144,7 +146,7 @@ const story = [
 
 "Jaise aapka daantna…",
 
-"Jaise aapka meri itni care karna…",
+"Jaise aapka meri care karna…",
 
 "Jaise aapka mujhpe gussa hona… aur phir khud hi normal ho jana…",
 
@@ -183,9 +185,9 @@ const story = [
 const proposalText = "Betu… will you be my Valentine… again? ❤️❤️";
 
 const yesFlow = [
-"Arey ruko ruko… No click karne ka to nahi soch rahi thi?? 😑😂",
-"Pakka hai na? Baad me bolna mat 'maine pressure me ha bola' 😤",
-"OMG THANK YOU BABY ❤️ I love you soooo much!!!",
+"Arey ruko ruko… No click karne ka plan to nahi tha?? 😑😂",
+"Pakka hai na? Baad me bolna mat 'pressure me ha bola' 😤",
+"OMG THANK YOU BABY ❤️ I love you sooo much!!!",
 "East or west… my baby is the best 😌❤️"
 ];
 
@@ -196,16 +198,17 @@ const noFlow = [
 "Last chance please ❤️"
 ];
 
-const secretMessage =
-"Secret bataun? I know you love me more than I ever could ❤️";
-
 /* Story Flow */
 
 let step=0;
 
 function updateScreen(){
-document.getElementById("image").src=`img${step+1}.jpg`;
-document.getElementById("bg").style.backgroundImage=`url(img${step+1}.jpg)`;
+
+const imageNumber = step + 1;
+
+document.getElementById("image").src = `img${imageNumber}.jpg`;
+document.getElementById("bg").style.backgroundImage = `url(img${imageNumber}.jpg)`;
+
 typeText(story[step]);
 }
 
@@ -229,12 +232,17 @@ showFinal();
 document.getElementById("nextBtn").onclick=next;
 
 function showFinal(){
+
+const proposalImage = story.length + 1;
+
 typeText(proposalText);
-document.getElementById("image").src="img6.jpg";
-document.getElementById("bg").style.backgroundImage=`url(img6.jpg)`;
+
+document.getElementById("image").src = `img${proposalImage}.jpg`;
+document.getElementById("bg").style.backgroundImage = `url(img${proposalImage}.jpg)`;
 
 document.getElementById("nextBtn").classList.add("hidden");
 document.getElementById("finalButtons").classList.remove("hidden");
+
 }
 
 /* YES FLOW */
@@ -243,19 +251,26 @@ let yesStep=0;
 
 function yesClick(){
 
-if(yesStep < yesFlow.length-1){
+if(yesStep < yesFlow.length - 1){
 typeText(yesFlow[yesStep]);
 yesStep++;
 return;
 }
 
-typeText(yesFlow[yesFlow.length-1]);
+typeText(yesFlow[yesFlow.length - 1]);
 
-document.getElementById("image").src="img7.jpg";
-document.getElementById("bg").style.backgroundImage=`url(img7.jpg)`;
+const finalYesImage = story.length + 2;
+
+document.getElementById("image").src = `img${finalYesImage}.jpg`;
+document.getElementById("bg").style.backgroundImage = `url(img${finalYesImage}.jpg)`;
+
 document.getElementById("finalButtons").classList.add("hidden");
 
-confetti({particleCount:180,spread:100,origin:{y:0.6}});
+confetti({
+particleCount:180,
+spread:100,
+origin:{y:0.6}
+});
 }
 
 /* NO FLOW */
@@ -274,18 +289,6 @@ let size=parseFloat(window.getComputedStyle(yesBtn).fontSize);
 yesBtn.style.fontSize=(size*1.4)+"px";
 }
 
-/* Easter Egg */
-
-let secret=0;
-
-document.body.addEventListener("dblclick",()=>{
-secret++;
-if(secret===3){
-alert(secretMessage);
-}
-});
-
 </script>
-
 </body>
 </html>
