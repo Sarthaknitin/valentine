@@ -19,8 +19,6 @@ overflow:hidden;
 cursor:none;
 }
 
-/* Background blur */
-
 .bg{
 position:fixed;
 width:110%;
@@ -48,7 +46,6 @@ img{
 width:100%;
 border-radius:20px;
 box-shadow:0 20px 40px rgba(0,0,0,0.4);
-transition:1s ease;
 }
 
 h2{
@@ -63,7 +60,6 @@ border:none;
 border-radius:12px;
 font-size:18px;
 cursor:pointer;
-transition:0.3s;
 }
 
 .yes{ background:#ff2d55; color:white;}
@@ -106,8 +102,7 @@ font-size:18px;
 
 <script>
 
-/* ---------------- Cursor Hearts ---------------- */
-
+/* Cursor Hearts */
 document.addEventListener("mousemove",(e)=>{
 const heart=document.createElement("div");
 heart.innerHTML="❤️";
@@ -115,66 +110,63 @@ heart.className="cursor";
 heart.style.left=e.pageX+"px";
 heart.style.top=e.pageY+"px";
 document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),500);
+setTimeout(()=>heart.remove(),400);
 });
 
-/* ---------------- Typing Effect ---------------- */
-
+/* Typing Effect */
 function typeText(text){
 let i=0;
 const el=document.getElementById("text");
 el.innerHTML="";
 
-let interval=setInterval(()=>{
-el.innerHTML+=text[i];
+const interval=setInterval(()=>{
+el.innerHTML += text.charAt(i);
 i++;
-if(i>=text.length) clearInterval(interval);
+if(i >= text.length) clearInterval(interval);
 },35);
 }
 
-/* ---------------- STORY SCRIPT ---------------- */
-
-const story = [
+/* STORY SCRIPT */
 
 const story = [
 
 "Hi Betu… ❤️",
 
-"I know thoda late ho gaya hu but, It was very difficult to express my love through words though i have tried to do so.",
+"I know thoda late ho gaya hu but… it was very difficult to express my love through words…",
 
-"Mujhe kabhi kabhi lagta hai… ki main aapko properly batata hi nahi hu… ki aap mere liye kitne special ho and mai apke liye kitna crazy hu",
+"Mujhe kabhi kabhi lagta hai ki main aapko properly batata hi nahi hu… ki aap mere liye kitne special ho…",
 
-"Last ek saal me… aap meri life me ka most important partban chuke ho, fit ho gaye ho… ki ab aap bina life imagine karna bhi impossible hai",
+"Last ek saal me… aap meri life ka sabse important part ban gaye ho…",
 
 "Aap meri aadat ban gaye ho… and honestly mujhe yeh aadat bohot pasand hai…",
 
-"Mujhe aapki har ek choti  cheez bohot cute lagti hai…",
+"Mujhe aapki har choti cheez bohot cute lagti hai…",
 
 "Jaise aapka daantna…",
 
-"aapka meri itni jada care karna…",
+"Jaise aapka meri itni care karna…",
 
 "Jaise aapka mujhpe gussa hona… aur phir khud hi normal ho jana…",
 
-"Aur sabse cute… aapka mujhpe haq jatana … even jab aap mujhse upset hote ho…",
+"Aur sabse cute… aapka mujhpe haq jatana…",
 
-"Mere liye aapke saath ke saare moments bohot jada special hai…",
+"Mere liye aapke saath ke saare moments bohot special hai…",
 
 "Random baate… random hasi… random planning jo kabhi complete nahi hoti 😂",
 
-"I know mai express nahi karta aur mere bacchu ko pyaar nahi deta",
+"I know mai express nahi karta…",
 
-"Par iska matlab yeh nahi ki mai aapse pyaar nahi karta",
+"Par iska matlab yeh nahi ki mai aapse pyaar nahi karta…",
 
-"Sach bolu… toh main aapko sab kuch maanta hu and i am never able to find words to even justify you…",
+"Sach bolu… toh main aapko sab kuch maanta hu…",
 
-"Aap mere peace place ho…",
+"Aap mera safe place ho…",
 
 "Mujhe aapke saath ladna bhi acha lagta hai… kyunki end me hum phir saath hi rehte hai…",
 
 "Aur honestly… mujhe aapko har din thoda aur pasand karna bhi acha lagta hai…",
 
-"Main perfect boyfriend nahi hu… aur shayad kabhi nahi ban paunga…",
+"Main perfect boyfriend nahi hu…",
 
 "Par main genuinely koshish karta hu… aur karta rahunga…",
 
@@ -188,38 +180,36 @@ const story = [
 
 ];
 
-
-];
-
 const proposalText = "Betu… will you be my Valentine… again? ❤️❤️";
 
 const yesFlow = [
-"Arey ruko ruko… No click karne ka to nahi soch rahi thi ?? Sach bato 😑😂",
+"Arey ruko ruko… No click karne ka to nahi soch rahi thi?? 😑😂",
 "Pakka hai na? Baad me bolna mat 'maine pressure me ha bola' 😤",
-"Accha… sach me ha bol diya… OMG OMG OMG OMG OMG Thank you Thank you Thank You Thank you so very much baby I love you so very much ❤️"
-"East or west My baby is the best yeahhhhhhhhh!!!!!!!"
+"OMG THANK YOU BABY ❤️ I love you soooo much!!!",
+"East or west… my baby is the best 😌❤️"
 ];
 
 const noFlow = [
-"Arey yaar please…",
+"Arey please Betu…",
 "Itna bhi bura nahi hu main 😭",
 "Ek baar aur soch lo…",
-"Last chance please"
+"Last chance please ❤️"
 ];
 
 const secretMessage =
-"Secret bataun? I know you love me more than i ever could ❤️";
+"Secret bataun? I know you love me more than I ever could ❤️";
 
-/* ---------------- Story Flow ---------------- */
+/* Story Flow */
 
 let step=0;
-let autoMode=false;
 
 function updateScreen(){
 document.getElementById("image").src=`img${step+1}.jpg`;
 document.getElementById("bg").style.backgroundImage=`url(img${step+1}.jpg)`;
 typeText(story[step]);
 }
+
+updateScreen();
 
 function next(){
 
@@ -232,10 +222,6 @@ updateScreen();
 }
 else{
 showFinal();
-}
-
-if(autoMode){
-setTimeout(next,4500);
 }
 
 }
@@ -251,19 +237,20 @@ document.getElementById("nextBtn").classList.add("hidden");
 document.getElementById("finalButtons").classList.remove("hidden");
 }
 
-/* ---------------- YES FLOW ---------------- */
+/* YES FLOW */
 
 let yesStep=0;
 
 function yesClick(){
 
-if(yesStep<yesFlow.length-1){
+if(yesStep < yesFlow.length-1){
 typeText(yesFlow[yesStep]);
 yesStep++;
 return;
 }
 
 typeText(yesFlow[yesFlow.length-1]);
+
 document.getElementById("image").src="img7.jpg";
 document.getElementById("bg").style.backgroundImage=`url(img7.jpg)`;
 document.getElementById("finalButtons").classList.add("hidden");
@@ -271,11 +258,12 @@ document.getElementById("finalButtons").classList.add("hidden");
 confetti({particleCount:180,spread:100,origin:{y:0.6}});
 }
 
-/* ---------------- NO FLOW ---------------- */
+/* NO FLOW */
 
 let noIndex=0;
 
 function noClick(){
+
 const noBtn=document.querySelector(".no");
 const yesBtn=document.querySelector(".yes");
 
@@ -286,19 +274,16 @@ let size=parseFloat(window.getComputedStyle(yesBtn).fontSize);
 yesBtn.style.fontSize=(size*1.4)+"px";
 }
 
-/* ---------------- Easter Egg ---------------- */
+/* Easter Egg */
 
 let secret=0;
+
 document.body.addEventListener("dblclick",()=>{
 secret++;
-if(secret==3){
+if(secret===3){
 alert(secretMessage);
 }
 });
-
-/* ---------------- Initial Load ---------------- */
-
-updateScreen();
 
 </script>
 
