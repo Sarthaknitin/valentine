@@ -12,14 +12,14 @@
 
 body{
 margin:0;
-font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-overflow:hidden;
-color:white;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 background:black;
+color:white;
+overflow:hidden;
 cursor:none;
 }
 
-/* ---------- Background Parallax ---------- */
+/* Background blur */
 
 .bg{
 position:fixed;
@@ -34,8 +34,6 @@ z-index:-1;
 transition:1s ease;
 }
 
-/* ---------- Container ---------- */
-
 .container{
 position:absolute;
 top:50%;
@@ -46,8 +44,6 @@ width:90%;
 max-width:420px;
 }
 
-/* ---------- Main Image ---------- */
-
 img{
 width:100%;
 border-radius:20px;
@@ -55,14 +51,10 @@ box-shadow:0 20px 40px rgba(0,0,0,0.4);
 transition:1s ease;
 }
 
-/* ---------- Text ---------- */
-
 h2{
 margin-top:25px;
-min-height:80px;
+min-height:90px;
 }
-
-/* ---------- Buttons ---------- */
 
 button{
 padding:12px 25px;
@@ -77,15 +69,13 @@ transition:0.3s;
 .yes{ background:#ff2d55; color:white;}
 .no{ background:white; color:black;}
 
-.hidden{ display:none; }
-
-/* ---------- Custom Cursor Hearts ---------- */
+.hidden{display:none;}
 
 .cursor{
 position:fixed;
-font-size:18px;
 pointer-events:none;
 z-index:999;
+font-size:18px;
 }
 
 </style>
@@ -116,7 +106,7 @@ z-index:999;
 
 <script>
 
-/* ---------- Cursor Hearts ---------- */
+/* ---------------- Cursor Hearts ---------------- */
 
 document.addEventListener("mousemove",(e)=>{
 const heart=document.createElement("div");
@@ -128,52 +118,94 @@ document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),500);
 });
 
-
-/* ---------- Typing Effect ---------- */
+/* ---------------- Typing Effect ---------------- */
 
 function typeText(text){
-
 let i=0;
 const el=document.getElementById("text");
 el.innerHTML="";
 
 let interval=setInterval(()=>{
-el.innerHTML += text[i];
+el.innerHTML+=text[i];
 i++;
 if(i>=text.length) clearInterval(interval);
-},40);
-
+},35);
 }
 
+/* ---------------- STORY SCRIPT ---------------- */
 
-/* ---------- Story Content ---------- */
+const story = [
+
+"Rishita… thoda ajeeb lagega… par sunna poora… interrupt mat karna 😤",
+
+"Mujhe normally itni filmy cheeze karna pasand nahi hai… par pata nahi kyu… is baar laga try kar leta hu.",
+
+"Waise tu jaanti hai… main zyada serious baate openly bolta nahi hu… mostly bakchodi hi karta hu.",
+
+"But kabhi kabhi… kuch log important ho jaate hai… aur unke liye effort karna automatically mann karta hai.",
+
+"Sach bolu toh mujhe exact moment yaad nahi hai… kab tu normal dost se… daily routine ka part ban gayi.",
+
+"Kabhi tu random favour maangti hai… kabhi subha uthana hota hai… kabhi parcel collect karna hota hai…",
+
+"Aur pata bhi nahi chalta… main kar bhi deta hu.",
+
+"Aur honestly… mujhe kabhi bura nahi lagta.",
+
+"Tu jab tension me hoti hai… ya upset hoti hai… tab automatically lagta hai… ki thoda sambhalna chahiye.",
+
+"Aur jab tu hasi mazaak karti hai… tab genuinely mood accha ho jaata hai.",
+
+"Kabhi kabhi main reply late karta hu… par iska matlab ignore karna nahi hota… bas thoda stupid hu main 😌",
+
+"Aur ek baat bolu… tu thodi weird hai… thodi emotional… thodi drama queen bhi hai… but acchi wali.",
+
+"Aur pata nahi kyu… mujhe ye sab pasand hai.",
+
+"Tu jab bolti hai 'bhai'… tab thoda dukh hota hai… par chalta hai… adjust kar liya hai 😭😂",
+
+"Waise tu realize kare ya na kare… par tu meri daily life ka part ban gayi hai.",
+
+"Kabhi kabhi bina reason smile aa jaati hai… aur phir yaad aata hai… shayad tu hi reason hai.",
+
+"Main future ya promises wali heavy baate nahi karunga… because life unpredictable hoti hai…",
+
+"Par ek simple baat bolunga… mujhe tu pasand hai. Genuinely.",
+
+"Aur mujhe tere saath aur time spend karna hai… aur memories banana hai… aur thoda aur irritate karna hai tujhe.",
+
+"Valentine week aa raha hai… aur maine socha… seedha pooch leta hu."
+
+];
+
+const proposalText = "Rishita… Will you be my Valentine? ❤️";
+
+const yesFlow = [
+"Arey ruk ruk… tu No click karne wali thi kya?? Sach bata 😑😂",
+"Pakka hai na? Baad me bolna mat 'maine pressure me ha bola' 😤",
+"Accha… sach me ha bol diya… Thank you ❤️ Tu ne mera din… nahi… pura mood bana diya."
+];
+
+const noFlow = [
+"Arey yaar please…",
+"Itna bhi bura nahi hu main 😭",
+"Ek baar aur soch le…",
+"Last try kar raha hu… phir respect karunga decision ❤️"
+];
+
+const secretMessage =
+"Secret bataun? Main shayad jitna dikhata hu… usse thoda zyada care karta hu ❤️";
+
+/* ---------------- Story Flow ---------------- */
 
 let step=0;
-
-const story=[
-"Hi Rishita…",
-"I don’t know the perfect way to say this…",
-"But life honestly became softer after you entered it…",
-"You make my normal days feel special…",
-"And since Valentine’s week is coming…"
-];
-
-const images=[
-"img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg"
-];
+let autoMode=false;
 
 function updateScreen(){
-
-document.getElementById("image").src=images[step];
-document.getElementById("bg").style.backgroundImage=`url(${images[step]})`;
+document.getElementById("image").src=`img${step+1}.jpg`;
+document.getElementById("bg").style.backgroundImage=`url(img${step+1}.jpg)`;
 typeText(story[step]);
-
 }
-
-
-/* ---------- Auto Slideshow ---------- */
-
-let autoMode=false;
 
 function next(){
 
@@ -185,7 +217,7 @@ if(step < story.length){
 updateScreen();
 }
 else{
-finalScreen();
+showFinal();
 }
 
 if(autoMode){
@@ -196,99 +228,61 @@ setTimeout(next,4500);
 
 document.getElementById("nextBtn").onclick=next;
 
-
-/* ---------- Final Screen ---------- */
-
-function finalScreen(){
-
-typeText("Rishita… Will you be my Valentine? ❤️");
+function showFinal(){
+typeText(proposalText);
 document.getElementById("image").src="img6.jpg";
 document.getElementById("bg").style.backgroundImage=`url(img6.jpg)`;
 
 document.getElementById("nextBtn").classList.add("hidden");
 document.getElementById("finalButtons").classList.remove("hidden");
-
 }
 
-
-/* ---------- NO FLOW ---------- */
-
-let noMsgs=[
-"Please don't do this 🥺",
-"I will be very sad 😭",
-"Think again…",
-"Last chance madam ❤️"
-];
-
-let noIndex=0;
-
-function noClick(){
-
-const noBtn=document.querySelector(".no");
-const yesBtn=document.querySelector(".yes");
-
-noBtn.innerText=noMsgs[noIndex];
-noIndex=(noIndex+1)%noMsgs.length;
-
-let size=parseFloat(window.getComputedStyle(yesBtn).fontSize);
-yesBtn.style.fontSize=(size*1.4)+"px";
-
-}
-
-
-/* ---------- YES FLOW ---------- */
+/* ---------------- YES FLOW ---------------- */
 
 let yesStep=0;
 
 function yesClick(){
 
-if(yesStep==0){
-typeText("Hey why clicking No 😜 Click Yes properly!");
+if(yesStep<yesFlow.length-1){
+typeText(yesFlow[yesStep]);
 yesStep++;
 return;
 }
 
-if(yesStep==1){
-typeText("Are you really sure? Think once again ❤️");
-yesStep++;
-return;
-}
-
-if(yesStep==2){
-
-typeText("Thank you soooo much ❤️ You made me happiest person!");
-
+typeText(yesFlow[yesFlow.length-1]);
 document.getElementById("image").src="img7.jpg";
 document.getElementById("bg").style.backgroundImage=`url(img7.jpg)`;
 document.getElementById("finalButtons").classList.add("hidden");
 
-confetti({
-particleCount:180,
-spread:100,
-origin:{y:0.6}
-});
-
+confetti({particleCount:180,spread:100,origin:{y:0.6}});
 }
 
+/* ---------------- NO FLOW ---------------- */
+
+let noIndex=0;
+
+function noClick(){
+const noBtn=document.querySelector(".no");
+const yesBtn=document.querySelector(".yes");
+
+noBtn.innerText=noFlow[noIndex];
+noIndex=(noIndex+1)%noFlow.length;
+
+let size=parseFloat(window.getComputedStyle(yesBtn).fontSize);
+yesBtn.style.fontSize=(size*1.4)+"px";
 }
 
-
-/* ---------- Hidden Easter Egg ---------- */
+/* ---------------- Easter Egg ---------------- */
 
 let secret=0;
-
 document.body.addEventListener("dblclick",()=>{
-
 secret++;
-
 if(secret==3){
-alert("You found secret message ❤️ I really like you more than you think.");
+alert(secretMessage);
 }
-
 });
 
-
-/* ---------- Initial Load ---------- */
+/* ---------------- Initial Load ---------------- */
 
 updateScreen();
 
