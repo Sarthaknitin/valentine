@@ -19,6 +19,22 @@ overflow:hidden;
 cursor:none;
 }
 
+/* Floating Hearts Background */
+
+.heart-bg{
+position:fixed;
+bottom:-20px;
+font-size:18px;
+animation:floatUp 6s linear infinite;
+opacity:0.5;
+z-index:0;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0);}
+100%{transform:translateY(-110vh);}
+}
+
 /* Background Blur */
 
 .bg{
@@ -49,7 +65,7 @@ max-width:420px;
 max-height:90vh;
 }
 
-/* Images */
+/* Apple Zoom Animation */
 
 img{
 width:100%;
@@ -58,11 +74,28 @@ object-fit:contain;
 border-radius:20px;
 box-shadow:0 20px 40px rgba(0,0,0,0.4);
 background:black;
+
+animation:zoomSlow 8s ease-in-out forwards;
+transition:opacity 0.8s ease;
+}
+
+@keyframes zoomSlow{
+from{transform:scale(1);}
+to{transform:scale(1.08);}
+}
+
+.fadeOut{
+opacity:0;
+}
+
+.fadeIn{
+opacity:1;
 }
 
 h2{
 margin-top:15px;
 min-height:70px;
+transition:opacity 0.6s ease;
 }
 
 button{
@@ -105,7 +138,7 @@ font-size:18px;
 
 <h2 id="text"></h2>
 
-<button id="nextBtn">Next ❤️</button>
+<button id="nextBtn">Tap ❤️</button>
 
 <div id="finalButtons" class="hidden">
 <button class="yes" onclick="yesClick()">Yes ❤️</button>
@@ -116,7 +149,19 @@ font-size:18px;
 
 <script>
 
-/* Heart Cursor */
+/* Floating Hearts Background */
+
+setInterval(()=>{
+const heart=document.createElement("div");
+heart.innerHTML="❤️";
+heart.className="heart-bg";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(15+Math.random()*25)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},500);
+
+/* Cursor Hearts */
 
 document.addEventListener("mousemove",(e)=>{
 const heart=document.createElement("div");
@@ -128,9 +173,10 @@ document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),400);
 });
 
-/* Typing Fix */
+/* Typing System */
 
 let typingInterval;
+let typingFinished=true;
 
 function typeText(text){
 
@@ -139,6 +185,8 @@ const el=document.getElementById("text");
 if(typingInterval){
 clearInterval(typingInterval);
 }
+
+typingFinished=false;
 
 let i=0;
 el.innerHTML="";
@@ -149,15 +197,15 @@ i++;
 
 if(i>=text.length){
 clearInterval(typingInterval);
+typingFinished=true;
 }
 
 },35);
-
 }
 
 /* STORY SCRIPT */
 
-const story=[
+const story = [
 
 "Hi Betu… ❤️",
 
@@ -211,38 +259,55 @@ const story=[
 
 const proposalText="Betu… will you be my Valentine… again? ❤️❤️";
 
-const yesFlow=[
-"Arey ruko ruko… No click karne ka plan to nahi tha?? 😑😂",
-"Pakka hai na? Baad me bolna mat 'pressure me ha bola' 😤",
-"OMG THANK YOU BABY ❤️ I love you sooo much!!!",
-"East or west… my baby is the best 😌❤️"
-];
-
-const noFlow=[
-"Arey please Betu…",
-"Itna bhi bura nahi hu main 😭",
-"Ek baar aur soch lo…",
-"Last chance please ❤️"
-];
-
 /* Story Flow */
 
 let step=0;
+let lastTap=0;
 
-function updateScreen(){
+function changeImage(imageNumber){
 
-const imageNumber=step+1;
+const img=document.getElementById("image");
 
-document.getElementById("image").src=`img${imageNumber}.jpg`;
+img.classList.add("fadeOut");
+
+setTimeout(()=>{
+img.src=`img${imageNumber}.jpg`;
 document.getElementById("bg").style.backgroundImage=`url(img${imageNumber}.jpg)`;
 
-typeText(story[step]);
+img.classList.remove("fadeOut");
+img.classList.add("fadeIn");
 
+},400);
+
+}
+
+function updateScreen(){
+changeImage(step+1);
+typeText(story[step]);
 }
 
 updateScreen();
 
-function next(){
+/* Tap Logic */
+
+document.body.addEventListener("click", ()=>{
+
+let now=new Date().getTime();
+let diff=now-lastTap;
+
+if(diff<300){
+nextSlide();
+}else{
+if(!typingFinished){
+typeText(story[step]);
+}
+}
+
+lastTap=now;
+
+});
+
+function nextSlide(){
 
 document.getElementById("music").play();
 
@@ -250,23 +315,17 @@ step++;
 
 if(step<story.length){
 updateScreen();
-}
-else{
+}else{
 showFinal();
 }
 
 }
 
-document.getElementById("nextBtn").onclick=next;
-
 function showFinal(){
-
-const proposalImage=story.length+1;
 
 typeText(proposalText);
 
-document.getElementById("image").src=`img${proposalImage}.jpg`;
-document.getElementById("bg").style.backgroundImage=`url(img${proposalImage}.jpg)`;
+changeImage(story.length+1);
 
 document.getElementById("nextBtn").classList.add("hidden");
 document.getElementById("finalButtons").classList.remove("hidden");
@@ -275,28 +334,15 @@ document.getElementById("finalButtons").classList.remove("hidden");
 
 /* YES FLOW */
 
-let yesStep=0;
-
 function yesClick(){
 
-if(yesStep<yesFlow.length-1){
-typeText(yesFlow[yesStep]);
-yesStep++;
-return;
-}
-
-typeText(yesFlow[yesFlow.length-1]);
-
-const finalYesImage=story.length+2;
-
-document.getElementById("image").src=`img${finalYesImage}.jpg`;
-document.getElementById("bg").style.backgroundImage=`url(img${finalYesImage}.jpg)`;
+changeImage(story.length+2);
 
 document.getElementById("finalButtons").classList.add("hidden");
 
 confetti({
-particleCount:180,
-spread:100,
+particleCount:200,
+spread:110,
 origin:{y:0.6}
 });
 
@@ -305,6 +351,13 @@ origin:{y:0.6}
 /* NO FLOW */
 
 let noIndex=0;
+
+const noFlow=[
+"Arey please Betu…",
+"Itna bhi bura nahi hu main 😭",
+"Ek baar aur soch lo…",
+"Last chance please ❤️"
+];
 
 function noClick(){
 
@@ -316,6 +369,7 @@ noIndex=(noIndex+1)%noFlow.length;
 
 let size=parseFloat(window.getComputedStyle(yesBtn).fontSize);
 yesBtn.style.fontSize=(size*1.4)+"px";
+
 }
 
 </script>
